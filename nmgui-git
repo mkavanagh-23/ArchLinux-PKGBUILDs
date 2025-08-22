@@ -25,13 +25,16 @@ pkgver() {
 build() {
     cd "$srcdir/nmgui/build"
 
+    # Set up the python build environment
     python -m venv build_env
     source build_env/bin/activate
     pip install python-nmcli
     export PYTHONPATH="$(python -c 'import site; print(site.getsitepackages()[0])'):$PYTHONPATH"
 
+    # Build the executable binary
     ./build.bin
 
+    # Deactivate the python venv
     deactivate
 }
 
@@ -46,13 +49,10 @@ package() {
         install -Dm644 nmgui.desktop "$pkgdir/usr/share/applications/nmgui.desktop"
     fi
     
-    # Install icon if it exists
-    if [ -f "icon.png" ]; then
-        install -Dm644 icon.png "$pkgdir/usr/share/pixmaps/nmgui.png"
-    fi
-    
     # Install documentation
-    install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+    if [ -f "README.md" ]; then
+        install -Dm644 README.md "$pkgdir/usr/share/doc/$pkgname/README.md"
+    fi
     if [ -f "LICENSE" ]; then
         install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
     fi
