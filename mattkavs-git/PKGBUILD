@@ -9,6 +9,8 @@ arch=('x86_64')
 url="https://github.com/mkavanagh-23/MattKavs"
 license=('MIT')
 depends=()
+provides=('mattkavs')
+conflicts=('mattkavs')
 makedepends=('cmake' 'git' 'catch2')
 source=("git+${url}.git#branch=main")
 sha256sums=('SKIP')
